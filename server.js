@@ -33,7 +33,7 @@ app.post('/calculate', (req, res) => {
 
     console.log(paramsObj.params);
     data = paramsObj.params;
-    const sheelScript = spawn('./assets/a2.out');
+    const sheelScript = spawn('./root/diplom/assets/a2.out');
 
     sheelScript.stdout.on('data', (data) => {
         console.log(`stdout: ${data.toString()}`);
@@ -52,7 +52,7 @@ app.post('/calculate', (req, res) => {
                 let eX = [];
                 let eZ = [];
 
-                fs.createReadStream("./Electrodes.csv")
+                fs.createReadStream("/root/diplom/Electrodes.csv")
                     .pipe(parse({ delimiter: ",", from_line: 2 }))
                     .on("data", function (row) {
                         let arr = row[0].split(" ").filter(i => i.length !== 0);
@@ -82,7 +82,7 @@ app.post('/calculate', (req, res) => {
                 let sX = [];
                 let sZ = [];
 
-                fs.createReadStream("./XZsurface.csv")
+                fs.createReadStream("/root/diplom/XZsurface.csv")
                     .pipe(parse({ delimiter: ",", from_line: 2 }))
                     .on("data", function (row) {
                         let arr = row[0].split(" ").filter(i => i.length !== 0);
@@ -107,7 +107,7 @@ app.post('/calculate', (req, res) => {
                 let roX = [];
                 let roK = [];
 
-                fs.createReadStream("./Ro.csv")
+                fs.createReadStream("/root/diplom/Ro.csv")
                     .pipe(parse({ delimiter: ",", from_line: 2 }))
                     .on("data", function (row) {
                         let arr = row[0].split(" ").filter(i => i.length !== 0);
@@ -132,7 +132,7 @@ app.post('/calculate', (req, res) => {
                 let nuxK = [];
                 let test = [];
 
-                fs.createReadStream("./nuxk.csv")
+                fs.createReadStream("/root/diplom/nuxk.csv")
                     .pipe(parse({ delimiter: ",", from_line: 2 }))
                     .on("data", function (row) {
                         let arr = row[0].split(" ").filter(i => i.length !== 0);
@@ -155,7 +155,7 @@ app.post('/calculate', (req, res) => {
             try {
                 let nuxY = [];
 
-                fs.createReadStream("./nuxy.csv")
+                fs.createReadStream("/root/diplom/nuxy.csv")
                     .pipe(parse({ delimiter: ",", from_line: 2 }))
                     .on("data", function (row) {
                         let arr = row[0].split(" ").filter(i => i.length !== 0);
@@ -177,7 +177,7 @@ app.post('/calculate', (req, res) => {
         Promise.all([e, s, roK, nuxK, nuxY]).then(response => {
             let paramsId = paramsObj.params["par1"] + "-" + paramsObj.params["par2"] + "-" + paramsObj.params["par3"] + "-" + paramsObj.params["par4"] + "-" + paramsObj.params["par5"]
             dbData = [...dbData, { data: response, id: dbData.length + 1, paramsId: paramsId}]
-            fs.writeFile("./db/dataRo.json", JSON.stringify(dbData), (err) => {
+            fs.writeFile("/root/diplom/db/dataRo.json", JSON.stringify(dbData), (err) => {
                 if (err) throw err;
                 console.log("done adding new data", dbData);
             });
