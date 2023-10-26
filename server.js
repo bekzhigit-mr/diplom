@@ -33,7 +33,7 @@ app.post('/calculate', (req, res) => {
 
     console.log(paramsObj.params);
     data = paramsObj.params;
-    const sheelScript = spawn('./root/diplom/assets/a2.out');
+    const sheelScript = spawn('/root/diplom/assets/a2.out');
 
     sheelScript.stdout.on('data', (data) => {
         console.log(`stdout: ${data.toString()}`);
